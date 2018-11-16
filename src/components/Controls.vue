@@ -1,14 +1,18 @@
 <template>
-   <div class="controls">
-      <div class="tempo-controls">
+   <div class="tempo-controls">
+      <div class="tempo-controls__tempo">
          <button @click="slowDown()">−</button>
          <div class="tempo">{{ tempo }}</div>
          <button @click="speedUp()">+</button>
       </div>
-      <div class="increment-controls">
-         <span>±</span>
-         <label v-for="value in possibleIncrements">
+      <div class="tempo-controls__increment">
+         <span aria-label="Incrémenter de" title="Incrémenter de">±</span>
+         <label v-for="value in incrementValues">
             <input type="radio" v-model="increment" :value="value" />{{ value }}
+         </label>
+         <label>
+            <input type="checkbox" v-model="roundIncrement"
+            />Arrondir
          </label>
       </div>
    </div>
@@ -18,8 +22,9 @@
 export default {
    data () {
       return {
-         increment: 1,
-         possibleIncrements: [1, 5, 10],
+         increment: 5,
+         incrementValues: [1, 5, 10],
+         roundIncrement: true,
       }
    },
    props: {
@@ -27,22 +32,22 @@ export default {
    },
    methods: {
       speedUp () {
-         this.$emit("change-tempo-by", this.increment)
+         this.$emit("change-tempo-by", this.increment, this.roundIncrement)
       },
       slowDown () {
-         this.$emit("change-tempo-by", -this.increment)
+         this.$emit("change-tempo-by", -this.increment, this.roundIncrement)
       },
    }
 }
 </script>
 
 <style>
-.tempo-controls {
+.tempo-controls__tempo {
    display: flex;
    width: 100%;
 }
 
-.tempo-controls > * {
+.tempo-controls__tempo > * {
    background: transparent;
    color: currentColor;
    font-size: inherit;
