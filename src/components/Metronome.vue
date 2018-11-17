@@ -1,6 +1,6 @@
 <template>
    <div class="Metronome">
-      <div class="visualization">[{{ tempo }}]</div>
+      <div class="visualization"></div>
       <tempo-controls v-bind:tempo="tempo"
          @change-tempo-by="changeTempoBy"
          @set-tempo="setTempo"
