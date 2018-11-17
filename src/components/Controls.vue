@@ -23,7 +23,7 @@ export default {
    data () {
       return {
          increment: 5,
-         incrementValues: [1, 5, 10],
+         incrementValues: [1, 5, 10, 20],
          roundIncrement: true,
       }
    },
