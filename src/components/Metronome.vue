@@ -66,9 +66,15 @@ export default {
       },
 
    },
+
    mounted () {
+      if (this.ongoingTick) {
+         clearTimeout(this.ongoingTick)
+      }
+
       this.startTick()
    },
+
    components: {
       TempoControls
    },
