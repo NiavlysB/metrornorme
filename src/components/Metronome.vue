@@ -8,29 +8,33 @@
 <script>
 import TempoControls from "./Controls.vue"
 
+function setTempo(newTempo) {
+   this.tempo = newTempo
+}
+
+function changeTempoBy(increment, roundIncrement) {
+   if (!roundIncrement) {
+      this.tempo += increment
+   } else {
+      this.tempo = increment * Math.floor(
+         (this.tempo + increment) / increment
+      )
+   }
+}
+
 export default {
    data () {
       return {
-         tempo: 80
+         tempo: 80,
+         silent: true,
       }
    },
    components: {
       TempoControls
    },
    methods: {
-      setTempo (newTempo) {
-         this.tempo = newTempo
-      },
-
-      changeTempoBy (increment, roundIncrement) {
-         if (!roundIncrement) {
-            this.tempo += increment
-         } else {
-            this.tempo = increment * Math.floor(
-               (this.tempo + increment) / increment
-            )
-         }
-      }
+      setTempo,
+      changeTempoBy,
    }
 }
 </script>
