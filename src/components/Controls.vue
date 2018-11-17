@@ -8,13 +8,13 @@
             @click="speedUp">+</button>
       </div>
       <div class="tempo-controls__increment">
-         <span aria-label="Incrémenter de" title="Incrémenter de">±</span>
+         <span aria-label="Increment by" title="Increment by">±</span>
          <label v-for="value in incrementValues">
             <input type="radio" v-model="increment" :value="value" />{{ value }}
          </label>
          <label>
             <input type="checkbox" v-model="roundIncrement"
-            />Arrondir
+            />Round
          </label>
       </div>
    </div>
