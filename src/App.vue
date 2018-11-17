@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Metronome
-      @tick="showTick()" />
+      @tick="showTick" />
   </div>
 </template>
 
@@ -15,8 +15,14 @@ export default {
    },
    methods: {
 
+      removeTickClass () {
+         this.$el.removeEventListener("animationend", this.removeTickClass)
+         this.$el.classList.remove("animationend", "tick")
+      },
+
       showTick () {
-         this.$el.classList.toggle("tick")
+         this.$el.addEventListener("animationend", this.removeTickClass, false)
+         this.$el.classList.add("tick")
       }
 
    },
@@ -37,26 +43,20 @@ export default {
    padding: 1em;
 }
 
+@keyframes tick {
+   from {
+      background-color: #333;
+      color: #eee;
+   }
+
+   to {
+      background-color: initial;
+      color: initial;
+   }
+}
+
 #app.tick {
-   background: black;
-   color: white;
-}
-
-h1, h2 {
-   font-weight: normal;
-}
-
-ul {
-   list-style-type: none;
-   padding: 0;
-}
-
-li {
-   display: inline-block;
-   margin: 0 10px;
-}
-
-a {
-   color: #42b983;
+   animation: tick .25s;
+   animation-timing-function: cubic-bezier(.19,1,.22,1);
 }
 </style>

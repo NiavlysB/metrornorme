@@ -60,8 +60,8 @@ export default {
                this.ongoingTick = this.tick(delay)
             }, delay)
          } else {
-            console.error("No delay specified")
             clearTimeout(this.ongoingTick)
+            return null
          }
       },
 
