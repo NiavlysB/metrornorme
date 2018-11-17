@@ -14,23 +14,6 @@ import TempoControls from "./Controls.vue"
 const minimumTempo = 0;
 const maximumTempo = 420;
 
-function setTempo(newTempo) {
-   this.tempo = Math.min(
-      Math.max(minimumTempo, newTempo),
-      maximumTempo
-   )
-}
-
-function changeTempoBy(increment, roundIncrement) {
-   if (!roundIncrement) {
-      this.setTempo(this.tempo + increment)
-   } else {
-      this.setTempo(increment * Math.floor(
-         (this.tempo + increment) / increment
-      ))
-   }
-}
-
 export default {
    data () {
       return {
@@ -38,13 +21,31 @@ export default {
          silent: true,
       }
    },
+   methods: {
+
+      setTempo (newTempo) {
+         this.tempo = Math.min(
+            Math.max(minimumTempo, newTempo), // accept no less than minimum tempo
+            maximumTempo
+         ) // and no more than maximumTempo
+      },
+
+      changeTempoBy (increment, roundIncrement) {
+         if (!roundIncrement) {
+            this.setTempo(this.tempo + increment)
+         } else {
+            this.setTempo(increment * Math.floor(
+               (this.tempo + increment) / increment
+            ))
+         }
+      }
+   },
+   mounted () {
+
+   },
    components: {
       TempoControls
    },
-   methods: {
-      setTempo,
-      changeTempoBy,
-   }
 }
 </script>
 
