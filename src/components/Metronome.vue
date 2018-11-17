@@ -17,7 +17,7 @@ const maximumTempo = 420;
 export default {
    data () {
       return {
-         tempo: 380,
+         tempo: 100,
          silent: true,
          ongoingTick: null,
       }
