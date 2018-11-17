@@ -8,10 +8,15 @@
 <script>
 import Metronome from "./components/Metronome.vue"
 
+const initialAnimationDuration = 250
+
 export default {
    name: 'app',
    data () {
-      return {}
+      return {
+         animationDuration: null,
+         currentDelay: null,
+      }
    },
    methods: {
 
@@ -20,12 +25,40 @@ export default {
          this.$el.classList.remove("animationend", "tick")
       },
 
-      showTick () {
+      showTick (delay) {
          this.$el.addEventListener("animationend", this.removeTickClass, false)
+
+         if (delay !== this.currentDelay) {
+            this.currentDelay = delay
+
+            // If delay has changed, ensure animation duration is
+            // always smaller than delay, to avoid overlapping animations
+            if (delay < initialAnimationDuration) {
+               this.animationDuration = delay;
+            } else if (this.animationDuration !== initialAnimationDuration) {
+               this.animationDuration = initialAnimationDuration
+            }
+         }
+
          this.$el.classList.add("tick")
-      }
+      },
 
    },
+
+   watch: {
+      animationDuration: {
+         immediate: true,
+         handler: function (value, oldValue) {
+            if (this.$el) {
+               this.$el.style.animationDuration = (value / 1000) + "s"
+            }
+         }
+      }
+   },
+
+   mounted () {
+   },
+
    components: {
       Metronome
    },
@@ -56,7 +89,7 @@ export default {
 }
 
 #app.tick {
-   animation: tick .25s;
+   animation-name: tick;
    animation-timing-function: cubic-bezier(0, .5, 0, .5);
 }
 </style>

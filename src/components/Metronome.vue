@@ -17,7 +17,7 @@ const maximumTempo = 420;
 export default {
    data () {
       return {
-         tempo: 80,
+         tempo: 380,
          silent: true,
          ongoingTick: null,
       }
@@ -54,7 +54,7 @@ export default {
       tick (delay) {
          if (delay) {
             console.info("Tick!", delay)
-            this.$emit("tick")
+            this.$emit("tick", delay)
 
             return setTimeout(() => {
                this.ongoingTick = this.tick(delay)
