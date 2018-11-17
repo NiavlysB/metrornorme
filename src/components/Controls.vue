@@ -28,7 +28,10 @@ export default {
       }
    },
    props: {
-      tempo: Number
+      tempo: {
+         type: Number,
+         required: true
+      },
    },
    methods: {
       speedUp () {
