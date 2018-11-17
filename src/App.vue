@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>{{ title }}</h1>
-    <Metronome />
+    <Metronome
+      @tick="showTick()" />
   </div>
 </template>
 
@@ -10,14 +11,21 @@ import Metronome from "./components/Metronome.vue"
 
 export default {
    name: 'app',
-   components: {
-      Metronome
-   },
    data () {
       return {
          title: 'Métronome'
       }
-   }
+   },
+   methods: {
+
+      showTick () {
+         this.$el.classList.toggle("tick")
+      }
+
+   },
+   components: {
+      Metronome
+   },
 }
 </script>
 
@@ -28,7 +36,13 @@ export default {
    -moz-osx-font-smoothing: grayscale;
    text-align: center;
    color: #2c3e50;
-   margin-top: 60px;
+   height: 100%;
+   padding: 1em;
+}
+
+#app.tick {
+   background: black;
+   color: white;
 }
 
 h1, h2 {
