@@ -57,6 +57,6 @@ export default {
 
 #app.tick {
    animation: tick .25s;
-   animation-timing-function: cubic-bezier(.19,1,.22,1);
+   animation-timing-function: cubic-bezier(0, .5, 0, .5);
 }
 </style>
