@@ -5,11 +5,13 @@
          @change-tempo-by="changeTempoBy"
          @set-tempo="setTempo"
       />
+      <tick-sound ref="audio" />
    </div>
 </template>
 
 <script>
 import TempoControls from "./Controls.vue"
+import TickSound from "./TickSound.vue"
 
 const minimumTempo = 0;
 const maximumTempo = 420;
@@ -20,6 +22,7 @@ export default {
          tempo: 100,
          silent: true,
          ongoingTick: null,
+         autostart: false,
       }
    },
    methods: {
@@ -55,6 +58,7 @@ export default {
          if (delay) {
             console.info("Tick!", delay)
             this.$emit("tick", delay)
+            this.$refs.audio.$emit("tick", delay)
 
             return setTimeout(() => {
                this.ongoingTick = this.tick(delay)
@@ -68,15 +72,19 @@ export default {
    },
 
    mounted () {
+      // Attempt to prevent occasional concurrent timeouts possibly linked to hot-reloading
       if (this.ongoingTick) {
          clearTimeout(this.ongoingTick)
       }
 
-      this.startTick()
+      if (this.autostart) {
+         this.startTick()
+      }
    },
 
    components: {
-      TempoControls
+      TempoControls,
+      TickSound,
    },
 }
 </script>
