@@ -91,7 +91,7 @@ export default {
 
 <style>
 .Metronome {
-   border: .2em solid #333;
+   border: .2em solid currentColor;
    padding: 1.5em;
 }
 </style>

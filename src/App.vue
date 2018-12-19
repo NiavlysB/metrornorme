@@ -16,6 +16,7 @@ export default {
       return {
          animationDuration: null,
          currentDelay: null,
+         tickDisplayMode: "toggle" // or "pulse"
       }
    },
    methods: {
@@ -26,6 +27,18 @@ export default {
       },
 
       showTick (delay) {
+         if (this.tickDisplayMode === "pulse") {
+            this.showTickPulse(delay)
+         } else if (this.tickDisplayMode === "toggle") {
+            this.showTickToggle()
+         }
+      },
+
+      showTickToggle () {
+         this.$el.classList.toggle("tick-on")
+      },
+
+      showTickPulse (delay) {
          this.$el.addEventListener("animationend", this.removeTickClass, false)
 
          if (delay !== this.currentDelay) {
@@ -41,7 +54,7 @@ export default {
          }
 
          this.$el.classList.add("tick")
-      },
+      }
 
    },
 
@@ -94,5 +107,10 @@ export default {
 #app.tick {
    animation-name: tick;
    animation-timing-function: cubic-bezier(0, .5, 0, .5);
+}
+
+#app.tick-on {
+   background-color: #222;
+   color: #eee;
 }
 </style>
