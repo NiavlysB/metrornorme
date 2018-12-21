@@ -11,8 +11,8 @@ export default {
    data () {
       return {
          context: null,
-         tickSound: null,
-         useRealSound: false,
+         tickSoundBuffer: null,
+         useRealSound: true,
          noiseFrequencies: []
       }
    },
@@ -20,11 +20,13 @@ export default {
 
       playTick () {
          console.log("Tick event received!")
-         if (this.useRealSound && this.tickSound !== null) {
-            this.tickSound.play()
-         }
 
-         if (this.useRealSound === false) {
+         if (this.useRealSound && this.tickSoundBuffer instanceof AudioBuffer) {
+            let tickSound = this.context.createBufferSource()
+            tickSound.buffer = this.tickSoundBuffer
+            tickSound.connect(this.context.destination)
+            tickSound.start()
+         } else {
             this.noiseFrequencies.forEach(frequency => {
                let oscillator = this.context.createOscillator()
                let gainNode = this.context.createGain()
@@ -40,7 +42,6 @@ export default {
                oscillator.start(now)
                oscillator.stop(now + duration)
             })
-
          }
       }
 
@@ -52,10 +53,14 @@ export default {
          _ => Math.floor(Math.random() * 4200) + 42
       )
 
-      console.log(this.noiseFrequencies)
-
-      this.tickSound = document.createElement("audio")
-      this.tickSound.src = tickSoundFile
+      fetch(tickSoundFile)
+         .then(response => response.arrayBuffer())
+         .then(data => {
+            console.log(data)
+            this.context.decodeAudioData(data, buffer => {
+               this.tickSoundBuffer = buffer
+            })
+         })
 
       this.$on("tick", this.playTick)
    }
