@@ -90,6 +90,8 @@ export default {
    color: #2c3e50;
    height: 100%;
    padding: 1em;
+   user-select: none;
+   -moz-user-select: none;
 }
 
 @keyframes tick {
