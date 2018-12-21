@@ -1,8 +1,4 @@
-<template>
-   <div class="audio-pool">
-      <button @click="playTick">Tick</button>
-   </div>
-</template>
+<template></template>
 
 <script>
 import tickSoundFile from "../assets/sounds/tick-1.wav"
