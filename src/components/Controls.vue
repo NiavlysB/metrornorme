@@ -9,8 +9,10 @@
       </div>
       <div class="tempo-controls__increment">
          <span aria-label="Increment by" title="Increment by">±</span>
-         <label v-for="value in incrementValues">
-            <input type="radio" v-model="increment" :value="value" />{{ value }}
+         <label v-for="value in incrementValues" class="tempo-controls__increment-value-btn"
+            :data-checked="value == increment">
+            <input type="radio" v-model="increment" :value="value" />
+            {{ value }}
          </label>
       </div>
    </div>
@@ -71,4 +73,21 @@ export default {
    cursor: pointer;
 }
 
+.tempo-controls__increment-value-btn {
+   position: relative;
+   display: inline-block;
+   cursor: pointer;
+   padding: .3em .6em;
+   border: .1em solid transparent;
+}
+
+.tempo-controls__increment-value-btn[data-checked] {
+   border-color: currentColor transparent;
+}
+
+.tempo-controls__increment-value-btn > input {
+   position: absolute;
+   appearance: none;
+   -moz-appearance: none;
+}
 </style>
