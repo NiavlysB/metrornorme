@@ -12,10 +12,6 @@
          <label v-for="value in incrementValues">
             <input type="radio" v-model="increment" :value="value" />{{ value }}
          </label>
-         <label>
-            <input type="checkbox" v-model="roundIncrement"
-            />Round
-         </label>
       </div>
    </div>
 </template>
@@ -72,6 +68,6 @@ export default {
 
 button {
    cursor: pointer;
-   border: 1px solid #aaa;
+   border: none;
 }
 </style>
