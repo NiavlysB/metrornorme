@@ -66,8 +66,9 @@ export default {
    margin-top: 1.5em;
 }
 
-button {
-   cursor: pointer;
+.tempo-controls__tempo-btn {
    border: none;
+   cursor: pointer;
 }
+
 </style>
