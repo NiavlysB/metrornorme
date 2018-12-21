@@ -1,20 +1,24 @@
 <template>
    <div class="tempo-controls">
-      <div class="tempo-controls__tempo">
+      <section class="tempo-controls__tempo">
          <button class="tempo-controls__tempo-btn"
             @click="slowDown">−</button>
          <div class="tempo-controls__tempo-value">{{ tempo }}</div>
          <button class="tempo-controls__tempo-btn"
             @click="speedUp">+</button>
-      </div>
-      <div class="tempo-controls__increment">
+      </section>
+      <section class="tempo-controls__buttons">
+         <button class="tempo-controls__button" @click="startStop">{{ running ? "⏸" : "▶" }}</button>
+         <!-- <button class="tempo-controls__button">🔇</button> -->
+      </section>
+      <section class="tempo-controls__increment">
          <span aria-label="Increment by" title="Increment by">±</span>
-         <label v-for="value in incrementValues" class="tempo-controls__increment-value-btn"
+         <label v-for="value in incrementValues" class="tempo-controls__increment-value"
             :data-checked="value == increment">
             <input type="radio" v-model="increment" :value="value" />
             {{ value }}
          </label>
-      </div>
+      </section>
    </div>
 </template>
 
@@ -32,6 +36,10 @@ export default {
          type: Number,
          required: true
       },
+      running: {
+         type: Boolean,
+         required: true,
+      }
    },
    methods: {
       speedUp () {
@@ -39,6 +47,15 @@ export default {
       },
       slowDown () {
          this.$emit("change-tempo-by", -this.increment, this.roundIncrement)
+      },
+      startStop () {
+         if (this.running) {
+            this.$emit("stop")
+         } else {
+            this.$emit("start")
+         }
+      },
+      stop () {
       },
    }
 }
@@ -64,7 +81,7 @@ export default {
    font-weight: bold;
 }
 
-.tempo-controls__increment {
+.tempo-controls > section:not(:first-child) {
    margin-top: 1.5em;
 }
 
@@ -73,7 +90,15 @@ export default {
    cursor: pointer;
 }
 
-.tempo-controls__increment-value-btn {
+.tempo-controls__button {
+   background: transparent;
+   font-size: 1em;
+   border: none;
+   color: currentColor;
+   cursor: pointer;
+}
+
+.tempo-controls__increment-value {
    position: relative;
    display: inline-block;
    cursor: pointer;
@@ -81,11 +106,11 @@ export default {
    border: .1em solid transparent;
 }
 
-.tempo-controls__increment-value-btn[data-checked] {
+.tempo-controls__increment-value[data-checked] {
    border-color: currentColor transparent;
 }
 
-.tempo-controls__increment-value-btn > input {
+.tempo-controls__increment-value > input {
    position: absolute;
    appearance: none;
    -moz-appearance: none;

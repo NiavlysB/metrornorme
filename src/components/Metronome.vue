@@ -1,9 +1,11 @@
 <template>
    <div class="Metronome">
       <div class="visualization"></div>
-      <tempo-controls v-bind:tempo="tempo"
+      <tempo-controls v-bind:tempo="tempo" v-bind:running="isRunning"
          @change-tempo-by="changeTempoBy"
          @set-tempo="setTempo"
+         @start="startTick"
+         @stop="stop"
       />
       <tick-sound ref="audio" />
    </div>
@@ -23,6 +25,7 @@ export default {
          silent: true,
          ongoingTick: null,
          autostart: false,
+         isRunning: false,
       }
    },
    methods: {
@@ -47,6 +50,8 @@ export default {
       },
 
       startTick () {
+         this.isRunning = true
+
          let delay = (60 / this.tempo) * 1000
          if (this.ongoingTick) {
             clearTimeout(this.ongoingTick)
@@ -55,18 +60,28 @@ export default {
       },
 
       tick (delay) {
-         if (delay) {
-            console.info("Tick!", delay)
-            this.$emit("tick", delay)
-            this.$refs.audio.$emit("tick", delay)
+         if (this.isRunning) {
+            if (delay) {
+               console.info("Tick!", delay)
+               this.$emit("tick", delay)
+               this.$refs.audio.$emit("tick", delay)
 
-            return setTimeout(() => {
-               this.ongoingTick = this.tick(delay)
-            }, delay)
-         } else {
-            clearTimeout(this.ongoingTick)
-            return null
+               return setTimeout(() => {
+                  this.ongoingTick = this.tick(delay)
+               }, delay)
+            } else {
+               clearTimeout(this.ongoingTick)
+               return null
+            }
          }
+      },
+
+      stop () {
+         if (this.ongoingTick) {
+            clearTimeout(this.ongoingTick)
+         }
+
+         this.isRunning = false
       },
 
    },
